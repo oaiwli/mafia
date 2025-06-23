@@ -10,11 +10,17 @@ import {
   IconBtn,
   Left,
   Right,
+  Btn,
 } from "./style";
 import useGameStore from "../../utils/store/game";
 
-const ChoiceRole = () => {
-  const { player, mafiaDon } = useGameStore();
+interface GameProps {
+  goRoll: () => void;
+}
+
+const ChoiceRole = ({ goRoll }: GameProps) => {
+  const { player, mafiaDon, mafia, killer, medic, police, whore, civil } =
+    useGameStore();
   return (
     <>
       <Container>
@@ -33,10 +39,88 @@ const ChoiceRole = () => {
                 </IconBtn>
               </BtnBox>
             </RoleBox>
+            <RoleBox>
+              <RoleText>Мафия</RoleText>
+              <RoleText>{mafia}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
+            <RoleBox>
+              <RoleText>Маньяк</RoleText>
+              <RoleText>{killer}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
           </Row>
           <CivilText>Мирная роль:</CivilText>
-          <Row>2 2 3 4</Row>
-          <Row>3 2 52 2</Row>
+          <Row>
+            <RoleBox>
+              <RoleText>Комисар</RoleText>
+              <RoleText>{police}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
+            <RoleBox>
+              <RoleText>Доктор</RoleText>
+              <RoleText>{medic}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
+            <RoleBox>
+              <RoleText>Шлюха</RoleText>
+              <RoleText>{whore}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
+          </Row>
+          <Row>
+            <RoleBox>
+              <RoleText>Мирный житель</RoleText>
+              <RoleText>{civil}</RoleText>
+              <BtnBox>
+                <IconBtn>
+                  <Left />
+                </IconBtn>
+                <IconBtn>
+                  <Right />
+                </IconBtn>
+              </BtnBox>
+            </RoleBox>
+            <IconBtn>
+              <Left />
+            </IconBtn>
+            <Btn onClick={goRoll}>GO!</Btn>
+          </Row>
         </RolesBox>
       </Container>
     </>

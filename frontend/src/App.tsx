@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
 import StartGame from "./components/StartGame";
 import ChoiceRole from "./components/ChoiceRole";
+import Roll from "./components/Roll";
 import Game from "./components/Game";
 import { useState } from "react";
 
@@ -15,19 +16,23 @@ export const THEME = {
 };
 
 const theme = createTheme(THEME as any);
-type GameStage = "start" | "role" | "game";
+type GameStage = "start" | "role" | "roll" | "game";
 
 const App = () => {
   const [gameStage, setGameStage] = useState<GameStage>("start");
   const goRole = () => {
     setGameStage("role");
   };
+  const goRoll = () => {
+    setGameStage("roll");
+  };
 
   return (
     <>
       <ThemeProvider theme={theme}>
         {gameStage === "start" && <StartGame goRole={goRole} />}
-        {gameStage === "role" && <ChoiceRole />}
+        {gameStage === "role" && <ChoiceRole goRoll={goRoll} />}
+        {gameStage === "roll" && <Roll />}
         {gameStage === "game" && <Game />}
       </ThemeProvider>
     </>

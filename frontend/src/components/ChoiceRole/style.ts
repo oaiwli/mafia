@@ -27,10 +27,11 @@ export const Row = styled(Box)(({ theme }) => ({
   gridRow: "1",
   justifyContent: "center",
   alignItems: "center",
+  gap: "3%",
+  marginTop: "3%",
 }));
 
 export const RoleBox = styled(Box)(({ theme }) => ({
-  width: "100%",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -45,14 +46,13 @@ export const RoleText = styled(Typography)(({ theme }) => ({
 
 export const MafiaText = styled(Typography)(({ theme }) => ({
   fontSize: "1.5rem",
-  marginLeft: "10%",
-
+  marginLeft: "3%",
   color: theme.palette.text.secondary,
 }));
 
 export const CivilText = styled(Typography)(({ theme }) => ({
   fontSize: "1.5rem",
-  marginLeft: "10%",
+  marginLeft: "3%",
   color: theme.palette.text.primary,
 }));
 
