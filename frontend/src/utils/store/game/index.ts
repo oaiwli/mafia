@@ -2,18 +2,18 @@ import { create } from "zustand";
 
 type Store = {
   player: number;
-  inc: () => void;
-  dec: () => void;
   mafiaDon: number;
   mafia: number;
   killer: number;
   police: number;
   medic: number;
   whore: number;
-  civil: number;
+  civil: () => number;
+  inc: (key: keyof Omit<Store, "inc" | "dec">, value?: number) => void;
+  dec: (key: keyof Omit<Store, "inc" | "dec">, value?: number) => void;
 };
 
-const useGameStore = create<Store>()((set) => ({
+const useGameStore = create<Store>()((set, get) => ({
   player: 9,
   mafiaDon: 1,
   mafia: 1,
@@ -21,10 +21,23 @@ const useGameStore = create<Store>()((set) => ({
   police: 1,
   medic: 1,
   whore: 1,
-  civil: 3,
-
-  inc: () => set((state) => ({ player: state.player + 1 })),
-  dec: () => set((state) => ({ player: Math.max(0, state.player - 1) })),
+  civil: () => {
+    const state = get();
+    return Math.max(
+      0,
+      state.player -
+        (state.mafiaDon +
+          state.mafia +
+          state.killer +
+          state.police +
+          state.medic +
+          state.whore)
+    );
+  },
+  inc: (key, value = 1) =>
+    set((state) => ({ [key]: (state[key] as number) + value })),
+  dec: (key, value = 1) =>
+    set((state) => ({ [key]: Math.max(0, (state[key] as number) - value) })),
 }));
 
 export default useGameStore;

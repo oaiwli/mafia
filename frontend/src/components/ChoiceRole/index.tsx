@@ -19,7 +19,7 @@ interface GameProps {
 }
 
 const ChoiceRole = ({ goRoll }: GameProps) => {
-  const { player, mafiaDon, mafia, killer, medic, police, whore, civil } =
+  const { mafiaDon, mafia, killer, medic, police, whore, civil, dec, inc } =
     useGameStore();
   return (
     <>
@@ -32,10 +32,10 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{mafiaDon}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("mafiaDon")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("mafiaDon")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
@@ -44,10 +44,10 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{mafia}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("mafia")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("mafia")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
@@ -56,10 +56,10 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{killer}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("killer")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("killer")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
@@ -71,10 +71,10 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{police}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("police")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("police")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
@@ -83,10 +83,10 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{medic}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("medic")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("medic")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
@@ -95,26 +95,21 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               <RoleText>{whore}</RoleText>
               <BtnBox>
                 <IconBtn>
-                  <Left />
+                  <Left onClick={() => dec("whore")} />
                 </IconBtn>
                 <IconBtn>
-                  <Right />
+                  <Right onClick={() => inc("whore")} />
                 </IconBtn>
               </BtnBox>
             </RoleBox>
           </Row>
           <Row>
             <RoleBox>
-              <RoleText>Мирный житель</RoleText>
-              <RoleText>{civil}</RoleText>
-              <BtnBox>
-                <IconBtn>
-                  <Left />
-                </IconBtn>
-                <IconBtn>
-                  <Right />
-                </IconBtn>
-              </BtnBox>
+              <RoleText>
+                Мирный
+                <br /> житель
+              </RoleText>
+              <RoleText>{civil()}</RoleText>
             </RoleBox>
             <IconBtn>
               <Left />

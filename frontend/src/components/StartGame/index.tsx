@@ -28,10 +28,10 @@ const StartGame = ({ goRole }: GameProps) => {
           <SelectPlayer>{player}</SelectPlayer>
         </SelectBox>
         <BtnBox>
-          <IconBtn onClick={dec}>
+          <IconBtn onClick={() => dec("player")}>
             <ChevronLeftIcon />
           </IconBtn>
-          <IconBtn onClick={inc}>
+          <IconBtn onClick={() => inc("player")}>
             <ChevronRightIcon />
           </IconBtn>
         </BtnBox>
