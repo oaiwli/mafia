@@ -1,3 +1,5 @@
+// useGameStore
+
 import { create } from "zustand";
 
 type Store = {
@@ -14,13 +16,13 @@ type Store = {
 };
 
 const useGameStore = create<Store>()((set, get) => ({
-  player: 9,
-  mafiaDon: 1,
+  player: 6,
+  mafiaDon: 0,
   mafia: 1,
-  killer: 1,
+  killer: 0,
   police: 1,
   medic: 1,
-  whore: 1,
+  whore: 0,
   civil: () => {
     const state = get();
     return Math.max(
