@@ -18,9 +18,10 @@ import useGameStore from "../../utils/store/game";
 
 interface GameProps {
   goRoll: () => void;
+  goStart: () => void;
 }
 
-const ChoiceRole = ({ goRoll }: GameProps) => {
+const ChoiceRole = ({ goRoll, goStart }: GameProps) => {
   const { mafiaDon, mafia, killer, medic, police, whore, civil, dec, inc } =
     useGameStore();
   return (
@@ -113,7 +114,7 @@ const ChoiceRole = ({ goRoll }: GameProps) => {
               </RoleText>
               <RoleText>{civil()}</RoleText>
             </RoleBox>
-            <IconBtn>
+            <IconBtn onClick={goStart}>
               <Left />
             </IconBtn>
             <Btn onClick={goRoll}>GO!</Btn>

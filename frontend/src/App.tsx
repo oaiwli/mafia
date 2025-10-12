@@ -26,13 +26,21 @@ const App = () => {
   const goRoll = () => {
     setGameStage("roll");
   };
+  const goStart = () => {
+    setGameStage("start");
+  };
+  const goGame = () => {
+    setGameStage("game");
+  };
 
   return (
     <>
       <ThemeProvider theme={theme}>
         {gameStage === "start" && <StartGame goRole={goRole} />}
-        {gameStage === "role" && <ChoiceRole goRoll={goRoll} />}
-        {gameStage === "roll" && <Roll />}
+        {gameStage === "role" && (
+          <ChoiceRole goRoll={goRoll} goStart={goStart} />
+        )}
+        {gameStage === "roll" && <Roll goGame={goGame} />}
         {gameStage === "game" && <Game />}
       </ThemeProvider>
     </>

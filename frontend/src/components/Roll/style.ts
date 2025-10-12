@@ -1,5 +1,3 @@
-// Roll style
-
 import { Box, styled, Button, TextField } from "@mui/material";
 
 export const Container = styled(Box)(() => ({
@@ -20,7 +18,17 @@ export const Card = styled(Box)(() => ({
   width: "200px",
   height: "320px",
   display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   border: "1px solid white",
+  borderRadius: "10px",
+  overflow: "hidden",
+}));
+
+export const RoleImage = styled("img")(() => ({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
 }));
 
 export const Input = styled(TextField)(({ theme }) => ({
