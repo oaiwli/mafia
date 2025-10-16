@@ -82,19 +82,23 @@ export const PlayersCountValueWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "15px",
+  position: "relative",
 }));
 
-// PlayersCountValue вместо SelectPlayer
 export const PlayersCountValue = styled(Typography)(({ theme }) => ({
   fontSize: "3rem",
   fontWeight: 700,
-  color: theme.palette.secondary.main, // Золотистый цвет для числа
+  color: theme.palette.secondary.main,
   textShadow: "1px 1px 5px rgba(0,0,0,0.7)",
-  fontFamily: theme.typography.body1.fontFamily, // Используем основной шрифт для числа
+  fontFamily: theme.typography.body1.fontFamily,
+
+  minWidth: "3ch", // ✅ фиксированная ширина под 2–3 цифры
+  textAlign: "center", // ✅ чтобы число всегда по центру
 }));
 
 // ArrowButton вместо IconBtn
 export const ArrowButton = styled(IconButton)(({ theme }) => ({
+  position: "relative",
   color: theme.palette.primary.main, // Красные стрелки
   "& svg": {
     fontSize: "3rem", // Большие стрелки
@@ -103,6 +107,11 @@ export const ArrowButton = styled(IconButton)(({ theme }) => ({
   "&:hover": {
     backgroundColor: "transparent",
     color: theme.palette.primary.dark,
+  },
+  "&:disabled": {
+    color: "#525252",
+    cursor: "not-allowed",
+    transform: "none",
   },
 }));
 

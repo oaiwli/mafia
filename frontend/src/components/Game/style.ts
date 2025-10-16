@@ -53,7 +53,7 @@ export const HostMessage = styled(Typography)(({ theme }) => ({
 }));
 
 export const PlayerItem = styled(Box)(({ theme }) => ({
-  width: "90%",
+  width: "80%",
   maxWidth: "450px", // Увеличим максимальную ширину
   display: "flex",
   justifyContent: "space-between",
