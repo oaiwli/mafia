@@ -5,27 +5,28 @@ import {
   Container,
   Card,
   Input,
-  Btn,
+  ActionBtn,
   RoleImage,
   RoleNameText,
-  BottomSpaceFiller,
-} from "./style"; // Добавим BottomSpaceFiller
+  AssignedPlayersCount,
+  ActionButtonPlaceholder, // Используем этот плейсхолдер
+  InputSection, // Контейнер для Input и ActionBtn/их плейсхолдеров
+} from "./style";
 import useGameStore from "../../utils/store/game";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 interface GameProps {
   goGame: () => void;
 }
 
 const roleImageMap: Record<string, string> = {
-  mafiaDon: "/Don.png",
-  mafia: "/Mafia.png",
-  killer: "/Maniac.png",
-  police: "/Comissar.png",
-  medic: "/Doctor.png",
-  whore: "/Whore.png",
-  civil: "/Civil.png",
-  back: "/Back.png",
+  mafiaDon: "https://i.ibb.co/jZ6L58T6/Don.png",
+  mafia: "https://i.ibb.co/TxzbCmXQ/Mafia.png",
+  killer: "https://i.ibb.co/39qjFq7Q/Maniac.png",
+  police: "https://i.ibb.co/V0J3QtTM/Comissar.png",
+  medic: "https://i.ibb.co/0RDN3yq6/Doctor.png",
+  whore: "https://i.ibb.co/5g33Y5Sm/Whore.png",
+  civil: "https://i.ibb.co/9knpcPG4/Civil.png",
+  back: "https://i.ibb.co/v68LCsms/Back.png",
 };
 
 const roleDisplayNameMap: Record<string, string> = {
@@ -39,20 +40,8 @@ const roleDisplayNameMap: Record<string, string> = {
   back: "",
 };
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FF4D4D",
-      dark: "#CC0000",
-    },
-    text: {
-      secondary: "white",
-    },
-  },
-});
-
 const Roll = ({ goGame }: GameProps) => {
-  const { assignRole, players, player } = useGameStore(); // Убрали isHostAssigned, setHostAssigned
+  const { assignRole, players, player } = useGameStore();
   const [name, setName] = useState("");
   const [currentRole, setCurrentRole] = useState<string | null>(null);
 
@@ -77,18 +66,20 @@ const Roll = ({ goGame }: GameProps) => {
   const roleDisplayName = currentRole ? roleDisplayNameMap[currentRole] : "";
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <Card>
-          <RoleImage src={imageSrc} alt={imageToDisplay} />
-        </Card>
-        {/* Пространство для названия роли */}
-        {currentRole ? (
-          <RoleNameText>{roleDisplayName}</RoleNameText>
-        ) : (
-          <BottomSpaceFiller height="1.5rem + 20px" />
-        )}{" "}
-        {/* Высота текста + margin-bottom */}
+    <Container>
+      <Card>
+        <RoleImage src={imageSrc} alt={imageToDisplay} />
+      </Card>
+
+      {/* Роль или заполнитель, всегда занимают одно и то же место */}
+      {currentRole ? (
+        <RoleNameText>{roleDisplayName}</RoleNameText>
+      ) : (
+        <RoleNameText />
+      )}
+
+      {/* Секция ввода/действия всегда занимает одинаковую высоту */}
+      <InputSection>
         {!currentRole ? (
           <>
             <Input
@@ -96,31 +87,27 @@ const Roll = ({ goGame }: GameProps) => {
               variant="outlined"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              InputLabelProps={{
-                style: { color: "rgba(255, 255, 255, 0.7)" },
-              }}
-              InputProps={{
-                style: { color: "white" },
-              }}
             />
-            <Btn onClick={handleAssign} disabled={!name.trim()}>
+            <ActionBtn onClick={handleAssign} disabled={!name.trim()}>
               {!name.trim() ? "Введите имя" : "Получить роль"}
-            </Btn>
+            </ActionBtn>
           </>
         ) : (
           <>
-            {/* Заполнители, чтобы Input и Btn не "прыгали" */}
-            <BottomSpaceFiller height="60px" /> {/* Высота Input примерно */}
-            <Btn onClick={handleNext}>
+            {/* Плейсхолдеры, которые занимают место Input и ActionBtn */}
+            <ActionButtonPlaceholder isInput /> {/* Место для Input */}
+            <ActionBtn onClick={handleNext}>
               {players.length >= player ? "Начать игру" : "Следующий игрок"}
-            </Btn>
+            </ActionBtn>
           </>
         )}
-        <p style={{ color: "white", marginTop: "auto" }}>
-          Раздано: {players.length}/{player}
-        </p>
-      </Container>
-    </ThemeProvider>
+      </InputSection>
+
+      {/* Счетчик игроков */}
+      <AssignedPlayersCount>
+        Раздано: {players.length}/{player}
+      </AssignedPlayersCount>
+    </Container>
   );
 };
 

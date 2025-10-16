@@ -1,3 +1,5 @@
+// frontend/src/utils/store/game/index.ts
+
 import { create } from "zustand";
 
 type Role =
@@ -36,7 +38,9 @@ type Store = {
       | "resetGame"
       | "setHostAssigned"
       | "updatePlayerName"
-    >,
+      | "players"
+      | "isHostAssigned"
+    >, // Исключаем нечисловые свойства
     value?: number
   ) => void;
   dec: (
@@ -49,7 +53,9 @@ type Store = {
       | "resetGame"
       | "setHostAssigned"
       | "updatePlayerName"
-    >,
+      | "players"
+      | "isHostAssigned"
+    >, // Исключаем нечисловые свойства
     value?: number
   ) => void;
   assignRole: (name: string) => Role | null;
@@ -83,8 +89,10 @@ const useGameStore = create<Store>()((set, get) => ({
   },
   inc: (key, value = 1) =>
     set((state) => {
+      // Здесь key гарантированно является ключом числового свойства благодаря Omit в Store
       const currentValue = state[key] as number;
       const newValue = currentValue + value;
+
       const allRolesCount =
         (key === "mafiaDon" ? newValue : state.mafiaDon) +
         (key === "mafia" ? newValue : state.mafia) +
@@ -101,22 +109,24 @@ const useGameStore = create<Store>()((set, get) => ({
       return state;
     }),
   dec: (key, value = 1) =>
-    set((state) => ({ [key]: Math.max(0, (state[key] as number) - value) })),
+    set((state) => ({
+      // Здесь key также гарантированно является ключом числового свойства
+      [key]: Math.max(0, (state[key] as number) - value),
+    })),
   assignRole: (name) => {
     const state = get();
 
     // Создаем список всех доступных ролей по количеству
     const rolesPool: Role[] = [];
-    const roleKeys: Role[] = [
-      "mafiaDon",
-      "mafia",
-      "killer",
-      "police",
-      "medic",
-      "whore",
-    ];
+    const roleKeys: Array<
+      "mafiaDon" | "mafia" | "killer" | "police" | "medic" | "whore"
+    > = ["mafiaDon", "mafia", "killer", "police", "medic", "whore"];
+
     roleKeys.forEach((key) => {
-      for (let i = 0; i < state[key]; i++) rolesPool.push(key);
+      // Здесь state[key] будет гарантированно числом
+      for (let i = 0; i < state[key]; i++) {
+        rolesPool.push(key);
+      }
     });
     for (let i = 0; i < state.civil(); i++) rolesPool.push("civil");
 

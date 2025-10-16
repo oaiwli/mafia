@@ -1,12 +1,15 @@
+// frontend/src/components/StartGame/index.tsx
+
 import {
   Container,
-  HeaderText,
-  SelectBox,
-  SelectText,
-  SelectPlayer,
-  IconBtn,
-  BtnBox,
-  Btn,
+  MafiaTitle, // Переименован HeaderText для соответствия макету
+  PlayersCountBox, // Это будет обертка для текста "Количество игроков"
+  PlayersCountText,
+  PlayersCountValueWrapper, // Новая обертка для числа и стрелок
+  PlayersCountValue, // Само число
+  ArrowButton, // Переименован IconBtn
+  StartButton, // Переименован Btn
+  BottomHint, // Добавлен для подсказки
 } from "./style";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -20,24 +23,26 @@ const StartGame = ({ goRole }: GameProps) => {
   const { player, inc, dec } = useGameStore();
 
   return (
-    <>
-      <Container>
-        <HeaderText>MAFIA</HeaderText>
-        <SelectBox>
-          <SelectText>Количество игроков:</SelectText>
-          <SelectPlayer>{player}</SelectPlayer>
-        </SelectBox>
-        <BtnBox>
-          <IconBtn onClick={() => dec("player")}>
-            <ChevronLeftIcon />
-          </IconBtn>
-          <IconBtn onClick={() => inc("player")}>
-            <ChevronRightIcon />
-          </IconBtn>
-        </BtnBox>
-        <Btn onClick={goRole}>НАЧАТЬ</Btn>
-      </Container>
-    </>
+    <Container>
+      <MafiaTitle variant="h1">MAFIA</MafiaTitle> {/* Используем h1 из темы */}
+      <PlayersCountBox>
+        <PlayersCountText variant="body1">Количество игроков:</PlayersCountText>
+      </PlayersCountBox>
+      {/* Объединяем число игроков и стрелки в один блок */}
+      <PlayersCountValueWrapper>
+        <ArrowButton onClick={() => dec("player")}>
+          <ChevronLeftIcon />
+        </ArrowButton>
+        <PlayersCountValue>{player}</PlayersCountValue>
+        <ArrowButton onClick={() => inc("player")}>
+          <ChevronRightIcon />
+        </ArrowButton>
+      </PlayersCountValueWrapper>
+      <StartButton onClick={goRole}>НАЧАТЬ</StartButton>
+      <BottomHint variant="caption">
+        Чтобы начать, выберите количество игроков.
+      </BottomHint>
+    </Container>
   );
 };
 

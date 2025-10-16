@@ -1,3 +1,5 @@
+// frontend/src/components/Game/index.tsx
+
 import { useState } from "react";
 import {
   Container,
@@ -13,7 +15,8 @@ import {
 import useGameStore from "../../utils/store/game";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+// Удаляем импорт ThemeProvider и createTheme, так как тема уже общая
+// import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const roleDisplayNameMap: Record<string, string> = {
   mafiaDon: "Дон Мафии",
@@ -25,25 +28,13 @@ const roleDisplayNameMap: Record<string, string> = {
   civil: "Мирный житель",
 };
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FF4D4D",
-      dark: "#CC0000",
-    },
-    text: {
-      secondary: "white",
-    },
-  },
-});
-
 const Game = () => {
   const {
     players,
     updatePlayerName,
     isHostAssigned,
     setHostAssigned,
-    resetGame,
+    // resetGame, // Не используется в этом компоненте, можно удалить
   } = useGameStore();
   const [editingPlayerId, setEditingPlayerId] = useState<string | null>(null);
   const [editedPlayerName, setEditedPlayerName] = useState("");
@@ -67,66 +58,72 @@ const Game = () => {
 
   if (!isHostAssigned) {
     return (
-      <ThemeProvider theme={theme}>
-        <Container style={{ justifyContent: "center", alignItems: "center" }}>
-          <HostMessage>Добро пожаловать в игру!</HostMessage>
-          <HostButtonContainer>
-            <HostButton onClick={handleHostAssign}>
-              ЗАНЯТЬ РОЛЬ ВЕДУЩЕГО
-            </HostButton>
-          </HostButtonContainer>
-        </Container>
-      </ThemeProvider>
+      // Удаляем ThemeProvider
+      <Container>
+        <HostMessage variant="h2">Добро пожаловать в игру!</HostMessage>{" "}
+        {/* Используем h2 из темы */}
+        <HostButtonContainer>
+          <HostButton onClick={handleHostAssign}>
+            ЗАНЯТЬ РОЛЬ ВЕДУЩЕГО
+          </HostButton>
+        </HostButtonContainer>
+      </Container>
+      // </ThemeProvider>
     );
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container
-        style={{
-          justifyContent: players.length === 0 ? "center" : "flex-start",
-          alignItems: "center",
-        }}
-      >
-        {players.length === 0 ? (
-          <HostMessage>Начните раздачу ролей в "Roll" компоненте.</HostMessage>
-        ) : (
-          players.map((p) => (
-            <PlayerItem key={p.id}>
-              {editingPlayerId === p.id ? (
-                <StyledInput
-                  value={editedPlayerName}
-                  onChange={(e) => setEditedPlayerName(e.target.value)}
-                  onBlur={() => handleSaveClick(p.id)}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      handleSaveClick(p.id);
-                    }
-                  }}
-                  autoFocus
-                />
-              ) : (
-                <PlayerName>{p.name}</PlayerName>
-              )}
+    // Удаляем ThemeProvider
+    <Container
+      style={{
+        // При наличии игроков, выравниваем по верхнему краю с отступами
+        justifyContent: players.length === 0 ? "center" : "flex-start",
+        paddingTop: players.length === 0 ? "20px" : "40px", // Отступ сверху при отображении списка
+        paddingBottom: players.length === 0 ? "20px" : "20px", // Отступ снизу
+        // alignItems: "center", // Уже есть в styled компоненте по умолчанию
+      }}
+    >
+      {players.length === 0 ? (
+        <HostMessage variant="h2">
+          Начните раздачу ролей в "Roll" компоненте.
+        </HostMessage>
+      ) : (
+        players.map((p) => (
+          <PlayerItem key={p.id}>
+            {editingPlayerId === p.id ? (
+              <StyledInput
+                value={editedPlayerName}
+                onChange={(e) => setEditedPlayerName(e.target.value)}
+                onBlur={() => handleSaveClick(p.id)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleSaveClick(p.id);
+                  }
+                }}
+                autoFocus
+              />
+            ) : (
+              <PlayerName>{p.name}</PlayerName>
+            )}
 
-              <PlayerRole>
-                {roleDisplayNameMap[p.role as keyof typeof roleDisplayNameMap]}
-              </PlayerRole>
+            <PlayerRole>
+              {roleDisplayNameMap[p.role as keyof typeof roleDisplayNameMap]}
+            </PlayerRole>
 
-              {editingPlayerId === p.id ? (
-                <EditButton onClick={() => handleSaveClick(p.id)}>
-                  <SaveIcon style={{ fontSize: "1.2rem" }} />
-                </EditButton>
-              ) : (
-                <EditButton onClick={() => handleEditClick(p.id, p.name)}>
-                  <EditIcon style={{ fontSize: "1.2rem" }} />
-                </EditButton>
-              )}
-            </PlayerItem>
-          ))
-        )}
-      </Container>
-    </ThemeProvider>
+            {editingPlayerId === p.id ? (
+              <EditButton onClick={() => handleSaveClick(p.id)}>
+                <SaveIcon style={{ fontSize: "1.2rem" }} />
+              </EditButton>
+            ) : (
+              <EditButton onClick={() => handleEditClick(p.id, p.name)}>
+                <EditIcon style={{ fontSize: "1.2rem" }} />
+              </EditButton>
+            )}
+          </PlayerItem>
+        ))
+      )}
+    </Container>
+    // </ThemeProvider>
   );
 };
 

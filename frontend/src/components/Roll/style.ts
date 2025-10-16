@@ -1,29 +1,30 @@
-// style.ts
+// frontend/src/components/Roll/style.ts
 
 import { Box, styled, Button, TextField, Typography } from "@mui/material";
 
 export const Container = styled(Box)(() => ({
-  height: "100vh",
+  height: "100%",
   width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "space-between", // Распределяем пространство
+  justifyContent: "center",
   padding: "20px 0",
+  boxSizing: "border-box",
 }));
 
-export const Card = styled(Box)(() => ({
+export const Card = styled(Box)(({ theme }) => ({
   width: "200px",
   height: "320px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  border: "1px solid rgba(255, 255, 255, 0.7)",
+  border: `2px solid ${theme.palette.secondary.main}`,
   borderRadius: "10px",
   overflow: "hidden",
-  boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.3)",
-  marginTop: "auto", // Отталкиваем карточку вверх
-  marginBottom: "10px", // Отступ снизу для текста роли/заполнителя
+  boxShadow: "0px 8px 25px rgba(0,0,0,0.8)",
+  marginBottom: "20px",
+  background: theme.palette.background.paper,
 }));
 
 export const RoleImage = styled("img")(() => ({
@@ -32,72 +33,123 @@ export const RoleImage = styled("img")(() => ({
   objectFit: "cover",
 }));
 
-export const RoleNameText = styled(Typography)(() => ({
-  color: "white",
-  fontSize: "1.5rem",
-  fontWeight: "bold",
+export const RoleNameText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.secondary.main,
+  fontSize: "2rem",
+  fontWeight: 700,
   textAlign: "center",
-  marginBottom: "20px", // Отступ до следующего элемента (Input или Btn)
-  height: "calc(1.5rem + 20px)", // Фиксированная высота для резервирования места
+  fontFamily: theme.typography.h2.fontFamily,
+  textShadow: theme.typography.h2.textShadow,
+  marginBottom: "30px",
+  // height: "calc(2rem + 30px)", // Убрали, т.к. InputSection будет управлять пространством ниже
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 }));
 
-// Новый компонент для резервирования места
-export const BottomSpaceFiller = styled(Box)<{ height?: string }>(
-  ({ height }) => ({
-    height: height || "20px", // Высота по умолчанию или переданная
-    width: "100%", // Занимает всю ширину, но не влияет на центрирование карточки
-    display: "flex",
-    justifyContent: "center", // Можно убрать, если не нужно центрировать ничего внутри
-    alignItems: "center",
-  })
-);
+// InputSection теперь управляет общим блоком под RoleNameText
+export const InputSection = styled(Box)(() => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "150px", // Задаем минимальную высоту для секции (Input + ActionBtn + отступы)
+  marginBottom: "20px", // Отступ до AssignedPlayersCount
+}));
 
 export const Input = styled(TextField)(({ theme }) => ({
-  width: "70%",
-  maxWidth: "300px",
-  margin: "20px 0",
+  width: "80%",
+  maxWidth: "350px",
+  marginBottom: "20px", // Отступ до кнопки
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.5)",
+      borderColor: theme.palette.secondary.main,
+      borderWidth: "2px",
     },
     "&:hover fieldset": {
-      borderColor: "white",
+      borderColor: theme.palette.secondary.main,
+      borderWidth: "2px",
     },
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary.main,
+      borderColor: theme.palette.secondary.main, // Без изменения цвета при фокусе
+      borderWidth: "2px",
     },
     borderRadius: "8px",
+    backgroundColor: theme.palette.background.paper,
   },
   "& .MuiInputBase-input": {
-    color: "white",
-    height: "20px", // Фиксируем высоту ввода
-    padding: "10px 14px", // Добавляем padding
+    color: theme.palette.text.primary,
+    height: "30px",
+    padding: "15px 14px",
+    fontFamily: theme.typography.body1.fontFamily,
   },
   "& .MuiInputLabel-root": {
-    color: "rgba(255, 255, 255, 0.7)",
-  },
-  "& .MuiInputLabel-root.Mui-focused": {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.body1.fontFamily,
+    "&.Mui-focused": {
+      color: theme.palette.text.primary, // Без изменения цвета при фокусе
+    },
   },
 }));
 
-export const Btn = styled(Button)(({ theme }) => ({
-  color: "white",
-  fontSize: "1.4rem",
-  fontWeight: "bold",
-  backgroundColor: theme.palette.primary.main,
-  padding: "10px 20px",
-  borderRadius: "8px",
-  transition: "background-color 0.3s ease",
+export const ActionBtn = styled(Button)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  fontSize: "1.5rem",
+  fontWeight: 700,
+  backgroundColor: theme.palette.secondary.main,
+  padding: "15px 40px",
+  borderRadius: "10px",
+  transition: "all 0.3s ease-in-out",
+  boxShadow: "0px 6px 20px rgba(0,0,0,0.6)",
+  border: `2px solid ${theme.palette.secondary.dark}`,
   "&:hover": {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.secondary.light,
+    boxShadow: "0px 8px 25px rgba(0,0,0,0.8)",
   },
   "&:disabled": {
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    color: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: theme.palette.background.paper,
+    color: "rgba(255, 255, 255, 0.4)",
+    border: `2px solid rgba(196, 156, 72, 0.3)`,
+    boxShadow: "none",
   },
-  marginBottom: "auto",
+  fontFamily: theme.typography.button.fontFamily,
+}));
+
+// Плейсхолдер для сохранения места Input, когда он скрыт
+export const ActionButtonPlaceholder = styled(Box)<{ isInput?: boolean }>(
+  ({ isInput }) => ({
+    width: "80%",
+    maxWidth: isInput ? "350px" : "auto",
+    height: isInput ? "calc(30px + 15px * 2 + 2px * 2)" : "auto", // Высота Input (высота текста + padding + border)
+    marginBottom: isInput ? "20px" : "0", // Отступ как у Input
+    // background: 'red', // Для отладки
+  })
+);
+
+export const AssignedPlayersCount = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  opacity: 0.7,
+  fontSize: "1rem",
+  textAlign: "center",
+  fontFamily: theme.typography.body1.fontFamily,
+  marginTop: "10px",
+  position: "relative",
+  "&::before, &::after": {
+    content: '""',
+    position: "absolute",
+    width: "15px",
+    height: "1px",
+    backgroundColor: theme.palette.secondary.main,
+    top: "50%",
+    transform: "translateY(-50%)",
+  },
+  "&::before": {
+    left: "calc(50% - 70px)",
+    transform: "rotate(0deg) translateY(-50%)",
+  },
+  "&::after": {
+    right: "calc(50% - 70px)",
+    transform: "rotate(0deg) translateY(-50%)",
+  },
 }));
