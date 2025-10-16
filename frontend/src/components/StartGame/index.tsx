@@ -1,12 +1,15 @@
+// frontend/src/components/StartGame/index.tsx
+
 import {
   Container,
-  HeaderText,
-  SelectBox,
-  SelectText,
-  SelectPlayer,
-  IconBtn,
-  BtnBox,
-  Btn,
+  MafiaTitle,
+  PlayersCountBox,
+  PlayersCountText,
+  PlayersCountValueWrapper,
+  PlayersCountValue,
+  ArrowButton,
+  StartButton,
+  BottomHint,
 } from "./style";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -19,25 +22,38 @@ interface GameProps {
 const StartGame = ({ goRole }: GameProps) => {
   const { player, inc, dec } = useGameStore();
 
+  const MIN_PLAYERS = 4;
+  const MAX_PLAYERS = 20;
+
+  const canDecrease = player > MIN_PLAYERS;
+  const canIncrease = player < MAX_PLAYERS;
+
   return (
-    <>
-      <Container>
-        <HeaderText>MAFIA</HeaderText>
-        <SelectBox>
-          <SelectText>Количество игроков:</SelectText>
-          <SelectPlayer>{player}</SelectPlayer>
-        </SelectBox>
-        <BtnBox>
-          <IconBtn onClick={dec}>
-            <ChevronLeftIcon />
-          </IconBtn>
-          <IconBtn onClick={inc}>
-            <ChevronRightIcon />
-          </IconBtn>
-        </BtnBox>
-        <Btn onClick={goRole}>НАЧАТЬ</Btn>
-      </Container>
-    </>
+    <Container>
+      <MafiaTitle variant="h1">MAFIA</MafiaTitle>
+
+      <PlayersCountBox>
+        <PlayersCountText variant="body1">Количество игроков:</PlayersCountText>
+      </PlayersCountBox>
+
+      <PlayersCountValueWrapper>
+        <ArrowButton onClick={() => dec("player")} disabled={!canDecrease}>
+          <ChevronLeftIcon />
+        </ArrowButton>
+
+        <PlayersCountValue>{player}</PlayersCountValue>
+
+        <ArrowButton onClick={() => inc("player")} disabled={!canIncrease}>
+          <ChevronRightIcon />
+        </ArrowButton>
+      </PlayersCountValueWrapper>
+
+      <StartButton onClick={goRole}>НАЧАТЬ</StartButton>
+
+      <BottomHint variant="caption">
+        Чтобы начать, выберите количество игроков.
+      </BottomHint>
+    </Container>
   );
 };
 
