@@ -2,18 +2,18 @@
 
 import {
   Container,
-  MafiaTitle, // Добавляем MafiaTitle для лого вверху
-  RolesSection, // Обертка для секции ролей
-  RoleGroupHeader, // Заголовок группы ролей
-  RolesGrid, // Вместо Row, для более гибкой сетки
-  RoleCard, // Вместо RoleBox
-  RoleName, // Текст названия роли
-  RoleCountWrapper, // Обертка для количества и кнопок
-  RoleCount, // Текст количества
-  ArrowButton, // Вместо IconBtn, Left, Right
-  ActionButtonGroup, // Группа кнопок внизу
-  BackButton, // Кнопка назад
-  GoButton, // Кнопка GO!
+  MafiaTitle,
+  RolesSection,
+  RoleGroupHeader,
+  RolesGrid,
+  RoleCard,
+  RoleName,
+  RoleCountWrapper,
+  RoleCount,
+  ArrowButton,
+  ActionButtonGroup,
+  BackButton,
+  GoButton,
 } from "./style";
 import useGameStore from "../../utils/store/game";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -38,14 +38,14 @@ const ChoiceRole = ({ goRoll, goStart }: GameProps) => {
     inc,
   } = useGameStore();
 
-  // Дополнительная логика для отключения кнопок, если сумма ролей уже равна игрокам
+  // логика для отключения кнопок, если сумма ролей уже равна игрокам
   const totalAssignedRoles = mafiaDon + mafia + killer + police + medic + whore;
   const canInc = (currentCount: number) =>
     totalAssignedRoles < player && currentCount < player;
 
   return (
     <Container>
-      <MafiaTitle variant="h2">MAFIA</MafiaTitle> {/* Логотип вверху */}
+      <MafiaTitle variant="h2">MAFIA</MafiaTitle>
       <RolesSection>
         <RoleGroupHeader variant="h4" hostile>
           Враждебные роли:
@@ -156,14 +156,11 @@ const ChoiceRole = ({ goRoll, goStart }: GameProps) => {
           </RoleCard>
         </RolesGrid>
 
-        {/* Мирный житель отдельной карточкой */}
         <RolesGrid>
           <RoleCard wide>
             {" "}
-            {/* Добавляем свойство wide для ширины */}
             <RoleName>Мирный житель</RoleName>
             <RoleCount>{civil()}</RoleCount>
-            {/* У мирного жителя нет кнопок, его количество вычисляется */}
           </RoleCard>
         </RolesGrid>
       </RolesSection>

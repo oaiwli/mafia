@@ -41,27 +41,25 @@ export const RoleNameText = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.h2.fontFamily,
   textShadow: theme.typography.h2.textShadow,
   marginBottom: "30px",
-  // height: "calc(2rem + 30px)", // Убрали, т.к. InputSection будет управлять пространством ниже
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 }));
 
-// InputSection теперь управляет общим блоком под RoleNameText
 export const InputSection = styled(Box)(() => ({
   width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  minHeight: "150px", // Задаем минимальную высоту для секции (Input + ActionBtn + отступы)
-  marginBottom: "20px", // Отступ до AssignedPlayersCount
+  minHeight: "150px",
+  marginBottom: "20px",
 }));
 
 export const Input = styled(TextField)(({ theme }) => ({
   width: "80%",
   maxWidth: "350px",
-  marginBottom: "20px", // Отступ до кнопки
+  marginBottom: "20px",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: theme.palette.secondary.main,
@@ -72,7 +70,7 @@ export const Input = styled(TextField)(({ theme }) => ({
       borderWidth: "2px",
     },
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.secondary.main, // Без изменения цвета при фокусе
+      borderColor: theme.palette.secondary.main,
       borderWidth: "2px",
     },
     borderRadius: "8px",
@@ -88,7 +86,7 @@ export const Input = styled(TextField)(({ theme }) => ({
     color: theme.palette.text.primary,
     fontFamily: theme.typography.body1.fontFamily,
     "&.Mui-focused": {
-      color: theme.palette.text.primary, // Без изменения цвета при фокусе
+      color: theme.palette.text.primary,
     },
   },
 }));
@@ -116,14 +114,12 @@ export const ActionBtn = styled(Button)(({ theme }) => ({
   fontFamily: theme.typography.button.fontFamily,
 }));
 
-// Плейсхолдер для сохранения места Input, когда он скрыт
 export const ActionButtonPlaceholder = styled(Box)<{ isInput?: boolean }>(
   ({ isInput }) => ({
     width: "80%",
     maxWidth: isInput ? "350px" : "auto",
-    height: isInput ? "calc(30px + 15px * 2 + 2px * 2)" : "auto", // Высота Input (высота текста + padding + border)
-    marginBottom: isInput ? "20px" : "0", // Отступ как у Input
-    // background: 'red', // Для отладки
+    height: isInput ? "calc(30px + 15px * 2 + 2px * 2)" : "auto",
+    marginBottom: isInput ? "20px" : "0",
   })
 );
 

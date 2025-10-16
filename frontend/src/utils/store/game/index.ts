@@ -1,4 +1,5 @@
 // frontend/src/utils/store/game/index.ts
+// потом разделить на несколько файлов, сделать правильно
 
 import { create } from "zustand";
 

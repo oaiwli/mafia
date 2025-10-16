@@ -3,24 +3,20 @@
 import { Box, styled, Typography, IconButton, Button } from "@mui/material";
 
 export const Container = styled(Box)(() => ({
-  // Изменения здесь:
-  height: "100%", // Контейнер занимает всю доступную высоту родителя
-  width: "100%", // Контейнер занимает всю доступную ширину родителя
+  height: "100%",
+  width: "100%",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center", // Центрирование по вертикали
-  alignItems: "center", // Центрирование по горизонтали
-  gap: "30px", // Отступ между элементами (можно настроить)
-  padding: "20px", // Внутренние отступы, чтобы контент не прилипал к краям
-  boxSizing: "border-box", // Учитываем padding в размере элемента
-  // Убираем позиционирование absolute и transform, т.к. родитель (root) уже центрирует App
-  // Если root не центрирует, и App занимает 100% ширины/высоты, то этот контейнер будет центрирован.
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "30px",
+  padding: "20px",
+  boxSizing: "border-box",
 }));
 
-// MafiaTitle вместо HeaderText
 export const MafiaTitle = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.main, // Красный из палитры
-  fontSize: theme.typography.h1.fontSize, // Используем h1 из темы
+  color: theme.palette.primary.main,
+  fontSize: theme.typography.h1.fontSize,
   fontFamily: theme.typography.h1.fontFamily,
   fontWeight: theme.typography.h1.fontWeight,
   textShadow: theme.typography.h1.textShadow,
@@ -34,20 +30,19 @@ export const MafiaTitle = styled(Typography)(({ theme }) => ({
     transform: "translateX(-50%)",
     width: "80%",
     height: "2px",
-    backgroundColor: theme.palette.secondary.main, // Золотистый акцент
+    backgroundColor: theme.palette.secondary.main,
     boxShadow: "0px 0px 10px rgba(196, 156, 72, 0.7)",
   },
 }));
 
-// PlayersCountBox вместо SelectBox для текста "Количество игроков:"
 export const PlayersCountBox = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   padding: "10px 20px",
-  backgroundColor: theme.palette.background.paper, // Темный фон для блока
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "8px",
-  border: `1px solid ${theme.palette.secondary.main}`, // Золотая рамка
+  border: `1px solid ${theme.palette.secondary.main}`,
   boxShadow: "0px 4px 15px rgba(0,0,0,0.4)",
   position: "relative",
   "&::before, &::after": {
@@ -69,7 +64,6 @@ export const PlayersCountBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-// PlayersCountText вместо SelectText
 export const PlayersCountText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
   fontSize: "1.2rem",
@@ -77,7 +71,6 @@ export const PlayersCountText = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
 }));
 
-// Новая обертка для числа и стрелок (ранее BtnBox и SelectPlayer были отдельно)
 export const PlayersCountValueWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -92,16 +85,15 @@ export const PlayersCountValue = styled(Typography)(({ theme }) => ({
   textShadow: "1px 1px 5px rgba(0,0,0,0.7)",
   fontFamily: theme.typography.body1.fontFamily,
 
-  minWidth: "3ch", // ✅ фиксированная ширина под 2–3 цифры
-  textAlign: "center", // ✅ чтобы число всегда по центру
+  minWidth: "3ch",
+  textAlign: "center",
 }));
 
-// ArrowButton вместо IconBtn
 export const ArrowButton = styled(IconButton)(({ theme }) => ({
   position: "relative",
-  color: theme.palette.primary.main, // Красные стрелки
+  color: theme.palette.primary.main,
   "& svg": {
-    fontSize: "3rem", // Большие стрелки
+    fontSize: "3rem",
     filter: "drop-shadow(1px 1px 3px rgba(0,0,0,0.5))",
   },
   "&:hover": {
@@ -115,31 +107,27 @@ export const ArrowButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-// StartButton вместо Btn
 export const StartButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main, // Золотистый фон
-  color: theme.palette.primary.main, // Красный текст
+  backgroundColor: theme.palette.secondary.main,
+  color: theme.palette.primary.main,
   padding: "15px 40px",
   fontSize: "2rem",
   fontWeight: 700,
   borderRadius: "10px",
   boxShadow: "0px 6px 20px rgba(0,0,0,0.6)",
   position: "relative",
-  border: `2px solid ${theme.palette.secondary.dark}`, // Более темная золотая обводка
+  border: `2px solid ${theme.palette.secondary.dark}`,
   "&:hover": {
     backgroundColor: theme.palette.secondary.light,
     boxShadow: "0px 8px 25px rgba(0,0,0,0.8)",
   },
-  fontFamily: theme.typography.button.fontFamily, // Используем шрифт для кнопок
+  fontFamily: theme.typography.button.fontFamily,
 }));
 
-// BottomHint для подсказки
 export const BottomHint = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
   opacity: 0.7,
   fontSize: "0.9rem",
-  // Убираем marginTop: "auto", чтобы не "прилипало" к низу.
-  // gap в Container отвечает за отступы между элементами.
   textAlign: "center",
   fontFamily: theme.typography.body1.fontFamily,
 }));

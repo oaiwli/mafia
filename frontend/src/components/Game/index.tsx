@@ -15,8 +15,6 @@ import {
 import useGameStore from "../../utils/store/game";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-// Удаляем импорт ThemeProvider и createTheme, так как тема уже общая
-// import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const roleDisplayNameMap: Record<string, string> = {
   mafiaDon: "Дон Мафии",
@@ -29,13 +27,8 @@ const roleDisplayNameMap: Record<string, string> = {
 };
 
 const Game = () => {
-  const {
-    players,
-    updatePlayerName,
-    isHostAssigned,
-    setHostAssigned,
-    // resetGame, // Не используется в этом компоненте, можно удалить
-  } = useGameStore();
+  const { players, updatePlayerName, isHostAssigned, setHostAssigned } =
+    useGameStore();
   const [editingPlayerId, setEditingPlayerId] = useState<string | null>(null);
   const [editedPlayerName, setEditedPlayerName] = useState("");
 
@@ -58,29 +51,23 @@ const Game = () => {
 
   if (!isHostAssigned) {
     return (
-      // Удаляем ThemeProvider
       <Container>
         <HostMessage variant="h2">Добро пожаловать в игру!</HostMessage>{" "}
-        {/* Используем h2 из темы */}
         <HostButtonContainer>
           <HostButton onClick={handleHostAssign}>
             ЗАНЯТЬ РОЛЬ ВЕДУЩЕГО
           </HostButton>
         </HostButtonContainer>
       </Container>
-      // </ThemeProvider>
     );
   }
 
   return (
-    // Удаляем ThemeProvider
     <Container
       style={{
-        // При наличии игроков, выравниваем по верхнему краю с отступами
         justifyContent: players.length === 0 ? "center" : "flex-start",
-        paddingTop: players.length === 0 ? "20px" : "40px", // Отступ сверху при отображении списка
-        paddingBottom: players.length === 0 ? "20px" : "20px", // Отступ снизу
-        // alignItems: "center", // Уже есть в styled компоненте по умолчанию
+        paddingTop: players.length === 0 ? "20px" : "40px",
+        paddingBottom: players.length === 0 ? "20px" : "20px",
       }}
     >
       {players.length === 0 ? (
@@ -123,7 +110,6 @@ const Game = () => {
         ))
       )}
     </Container>
-    // </ThemeProvider>
   );
 };
 

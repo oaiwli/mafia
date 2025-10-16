@@ -6,23 +6,19 @@ import StartGame from "./components/StartGame";
 import ChoiceRole from "./components/ChoiceRole";
 import Roll from "./components/Roll";
 import Game from "./components/Game";
-import { useState, useEffect } from "react"; // Добавляем useEffect
-
-// Добавляем импорт шрифтов из Google Fonts (можно добавить в index.html или через @import в CSS)
-// Для примера, можно использовать:
-// <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet">
+import { useState, useEffect } from "react";
 
 export const THEME = {
   palette: {
-    primary: { main: "#B80F0A" }, // Глубокий красный для акцентов
-    secondary: { main: "#C49C48" }, // Золотистый для декоративных элементов
-    text: { primary: "#D6C6AD", secondary: "#B80F0A" }, // Светлый текст и красный акцентный текст
-    background: { default: "#1a1a1a", paper: "#282828" }, // Темный фон
+    primary: { main: "#B80F0A" },
+    secondary: { main: "#C49C48" },
+    text: { primary: "#D6C6AD", secondary: "#B80F0A" },
+    background: { default: "#1a1a1a", paper: "#282828" },
   },
   typography: {
-    fontFamily: '"Old Standard TT", serif', // Основной шрифт с засечками
+    fontFamily: '"Old Standard TT", serif',
     h1: {
-      fontFamily: '"Cinzel Decorative", cursive', // Специальный шрифт для логотипов/заголовков
+      fontFamily: '"Cinzel Decorative", cursive',
       fontWeight: 700,
       fontSize: "4rem",
       textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
@@ -47,7 +43,7 @@ export const THEME = {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "8px", // Общий радиус для кнопок
+          borderRadius: "8px",
           transition: "all 0.3s ease-in-out",
         },
       },
@@ -82,7 +78,6 @@ const App = () => {
     setGameStage("game");
   };
 
-  // Добавляем шрифты через useEffect или в public/index.html
   useEffect(() => {
     const link1 = document.createElement("link");
     link1.href =
@@ -103,7 +98,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // Список всех изображений ролей, которые нужно заранее подгрузить
     const imagePaths = [
       "/public/mafiaDon.png",
       "/public/mafia.png",
@@ -114,14 +108,12 @@ const App = () => {
       "/public/civil.png",
     ];
 
-    // Создаём Image-объекты и подгружаем
     const preloadImages = imagePaths.map((path) => {
       const img = new Image();
       img.src = path;
       return img;
     });
 
-    // Возвращаем функцию очистки (не обязательно, но корректно)
     return () => {
       preloadImages.forEach((img) => (img.src = ""));
     };

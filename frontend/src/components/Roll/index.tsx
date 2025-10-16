@@ -9,8 +9,8 @@ import {
   RoleImage,
   RoleNameText,
   AssignedPlayersCount,
-  ActionButtonPlaceholder, // Используем этот плейсхолдер
-  InputSection, // Контейнер для Input и ActionBtn/их плейсхолдеров
+  ActionButtonPlaceholder,
+  InputSection,
 } from "./style";
 import useGameStore from "../../utils/store/game";
 
@@ -71,14 +71,12 @@ const Roll = ({ goGame }: GameProps) => {
         <RoleImage src={imageSrc} alt={imageToDisplay} />
       </Card>
 
-      {/* Роль или заполнитель, всегда занимают одно и то же место */}
       {currentRole ? (
         <RoleNameText>{roleDisplayName}</RoleNameText>
       ) : (
         <RoleNameText />
       )}
 
-      {/* Секция ввода/действия всегда занимает одинаковую высоту */}
       <InputSection>
         {!currentRole ? (
           <>
@@ -94,8 +92,7 @@ const Roll = ({ goGame }: GameProps) => {
           </>
         ) : (
           <>
-            {/* Плейсхолдеры, которые занимают место Input и ActionBtn */}
-            <ActionButtonPlaceholder isInput /> {/* Место для Input */}
+            <ActionButtonPlaceholder isInput />
             <ActionBtn onClick={handleNext}>
               {players.length >= player ? "Начать игру" : "Следующий игрок"}
             </ActionBtn>
@@ -103,7 +100,6 @@ const Roll = ({ goGame }: GameProps) => {
         )}
       </InputSection>
 
-      {/* Счетчик игроков */}
       <AssignedPlayersCount>
         Раздано: {players.length}/{player}
       </AssignedPlayersCount>
