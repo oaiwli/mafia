@@ -39,8 +39,7 @@ const ChoiceRole = ({ goRoll, goStart }: GameProps) => {
   } = useGameStore();
 
   // Дополнительная логика для отключения кнопок, если сумма ролей уже равна игрокам
-  const totalAssignedRoles =
-    mafiaDon + mafia + killer + police + medic + whore + civil();
+  const totalAssignedRoles = mafiaDon + mafia + killer + police + medic + whore;
   const canInc = (currentCount: number) =>
     totalAssignedRoles < player && currentCount < player;
 
@@ -142,7 +141,6 @@ const ChoiceRole = ({ goRoll, goStart }: GameProps) => {
           </RoleCard>
           <RoleCard>
             <RoleName>Путана</RoleName>{" "}
-            {/* Изменил на "Путана" для соответствия макету */}
             <RoleCountWrapper>
               <ArrowButton onClick={() => dec("whore")} disabled={whore === 0}>
                 <ChevronLeftIcon />
