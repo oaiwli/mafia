@@ -1,5 +1,3 @@
-// utils/store/game.ts
-
 import { create } from "zustand";
 
 type Role =
@@ -12,6 +10,7 @@ type Role =
   | "civil";
 
 type Player = {
+  id: string; // Добавляем уникальный ID для каждого игрока
   name: string;
   role: Role | null;
 };
@@ -25,11 +24,38 @@ type Store = {
   medic: number;
   whore: number;
   players: Player[];
+  isHostAssigned: boolean; // Новый стейт для ведущего
   civil: () => number;
-  inc: (key: keyof Omit<Store, "inc" | "dec">, value?: number) => void;
-  dec: (key: keyof Omit<Store, "inc" | "dec">, value?: number) => void;
+  inc: (
+    key: keyof Omit<
+      Store,
+      | "inc"
+      | "dec"
+      | "civil"
+      | "assignRole"
+      | "resetGame"
+      | "setHostAssigned"
+      | "updatePlayerName"
+    >,
+    value?: number
+  ) => void;
+  dec: (
+    key: keyof Omit<
+      Store,
+      | "inc"
+      | "dec"
+      | "civil"
+      | "assignRole"
+      | "resetGame"
+      | "setHostAssigned"
+      | "updatePlayerName"
+    >,
+    value?: number
+  ) => void;
   assignRole: (name: string) => Role | null;
   resetGame: () => void;
+  setHostAssigned: (isAssigned: boolean) => void; // Функция для установки ведущего
+  updatePlayerName: (id: string, newName: string) => void; // Функция для изменения имени игрока
 };
 
 const useGameStore = create<Store>()((set, get) => ({
@@ -41,6 +67,7 @@ const useGameStore = create<Store>()((set, get) => ({
   medic: 1,
   whore: 0,
   players: [],
+  isHostAssigned: false, // Изначально ведущий не назначен
   civil: () => {
     const state = get();
     return Math.max(
@@ -58,15 +85,17 @@ const useGameStore = create<Store>()((set, get) => ({
     set((state) => {
       const currentValue = state[key] as number;
       const newValue = currentValue + value;
-      const allRoles =
+      const allRolesCount =
         (key === "mafiaDon" ? newValue : state.mafiaDon) +
         (key === "mafia" ? newValue : state.mafia) +
         (key === "killer" ? newValue : state.killer) +
         (key === "police" ? newValue : state.police) +
         (key === "medic" ? newValue : state.medic) +
-        (key === "whore" ? newValue : state.whore);
+        (key === "whore" ? newValue : state.whore) +
+        state.civil(); // Учитываем civil в общей сумме ролей для проверки лимита
 
-      if (allRoles <= state.player) {
+      // Проверяем, не превышаем ли мы общее количество игроков
+      if (allRolesCount <= state.player) {
         return { ...state, [key]: newValue };
       }
       return state;
@@ -76,7 +105,7 @@ const useGameStore = create<Store>()((set, get) => ({
   assignRole: (name) => {
     const state = get();
 
-    // создаём список всех доступных ролей по количеству
+    // Создаем список всех доступных ролей по количеству
     const rolesPool: Role[] = [];
     const roleKeys: Role[] = [
       "mafiaDon",
@@ -91,12 +120,12 @@ const useGameStore = create<Store>()((set, get) => ({
     });
     for (let i = 0; i < state.civil(); i++) rolesPool.push("civil");
 
-    // считаем уже выданные роли
+    // Считаем уже выданные роли
     const usedRoles = state.players
       .map((p) => p.role)
       .filter(Boolean) as Role[];
 
-    // оставляем только те, у которых ещё есть “запас”
+    // Оставляем только те, у которых ещё есть “запас”
     const availableRoles = rolesPool.filter((role) => {
       const countInPool = rolesPool.filter((r) => r === role).length;
       const countUsed = usedRoles.filter((r) => r === role).length;
@@ -105,17 +134,28 @@ const useGameStore = create<Store>()((set, get) => ({
 
     if (availableRoles.length === 0) return null;
 
-    // выдаём случайную из оставшихся
+    // Выдаём случайную из оставшихся
     const randomRole =
       availableRoles[Math.floor(Math.random() * availableRoles.length)];
 
     set((state) => ({
-      players: [...state.players, { name, role: randomRole }],
+      players: [
+        ...state.players,
+        { id: Date.now().toString(), name, role: randomRole },
+      ], // Генерируем ID
     }));
 
     return randomRole;
   },
-  resetGame: () => set({ players: [] }),
+  resetGame: () => set({ players: [], isHostAssigned: false }), // Сбрасываем и ведущего
+  setHostAssigned: (isAssigned: boolean) => set({ isHostAssigned: isAssigned }),
+  updatePlayerName: (id, newName) => {
+    set((state) => ({
+      players: state.players.map((p) =>
+        p.id === id ? { ...p, name: newName } : p
+      ),
+    }));
+  },
 }));
 
 export default useGameStore;
